@@ -114,3 +114,26 @@ entry point is `https://recipe-source-card.sociobot.in/demo/`.
 - npm's advisories are confined to development tooling; the production audit
   is clean.
 - No release-blocking product or deployment gap is known.
+
+## Independent verification 2 — PASS
+
+Verified candidate `388363ad138ad9f0eb38d0d933f16d0343c78a43` against
+https://recipe-source-card.sociobot.in/ on 2026-08-28 UTC. Result: **PASS**.
+
+The verifier performed the required cold first-read, ran all ten commands in
+`.factory/claims.json` from a clean `npm ci` install (all passed), ran
+`npm test` (12/12), TypeScript checking, the production build, packaged
+extension tests, desktop/390 px/end-to-end browser coverage, fresh live Axe
+scans, response-header/cache checks, deployment-content comparisons, privacy
+and outbound-request review, offline/service-worker coverage, and a production
+license-verification rate-limit burst.
+
+The live HTML, demo, hashed JS/CSS, and service worker are byte-identical to
+the candidate build. The live extension ZIP's timestamps differ but its entry
+names/lengths and sampled core-file hashes match. The 80-request invalid-token burst received 50
+`429` responses with `Retry-After: 4` (about 30 requests accepted in the
+burst). No blocker, critical, high, or medium product defect was found.
+
+Full evidence, including the cold-read result, each claim, exact commands,
+live header/accessibility results, and two non-product browser/tooling caveats,
+is in `.factory/verification-2.md`.
