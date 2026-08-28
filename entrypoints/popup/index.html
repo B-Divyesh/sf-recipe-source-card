@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Recipe Source Card</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to recipe card</a>
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
+      <div>
+        <h1>Recipe Source Card</h1>
+        <p>Keep the recipe. Keep where it came from.</p>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="capture-bar" aria-labelledby="capture-heading">
+        <div>
+          <h2 id="capture-heading">Current page</h2>
+          <p id="page-state">Ready to read exposed Recipe JSON-LD.</p>
+        </div>
+        <button id="capture" class="button primary" type="button">Capture recipe</button>
+      </section>
+      <p id="notice" class="notice" role="status" aria-live="polite"></p>
+
+      <section id="empty" class="empty-state" aria-labelledby="empty-heading">
+        <div class="empty-sheet" aria-hidden="true"><span></span><span></span><span></span></div>
+        <h2 id="empty-heading">A clean card, from the source</h2>
+        <p>Open a recipe page, then capture the structured recipe data it publishes. Nothing is sent away.</p>
+        <ul>
+          <li>Only visible Recipe JSON-LD is read</li>
+          <li>Every field stays editable</li>
+          <li>Every export keeps the source URL</li>
+        </ul>
+      </section>
+
+      <section id="editor" class="editor" aria-labelledby="editor-heading" hidden>
+        <div class="sheet-head">
+          <div>
+            <p class="eyebrow">Editable preview</p>
+            <h2 id="editor-heading" tabindex="-1">Repair before you keep it</h2>
+          </div>
+          <label id="recipe-choice-wrap" hidden>
+            Recipe on page
+            <select id="recipe-choice"></select>
+          </label>
+        </div>
+        <p class="source-line"><span aria-hidden="true">↗</span> Source: <a id="source-link" target="_blank" rel="noreferrer"></a></p>
+
+        <form id="recipe-form">
+          <div class="field full">
+            <label for="name">Recipe name <span>From source</span></label>
+            <input id="name" name="name" required autocomplete="off" />
+          </div>
+          <div class="field full">
+            <label for="description">Description <span>From source</span></label>
+            <textarea id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="field">
+            <label for="author">Author <span>From source</span></label>
+            <input id="author" name="author" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="yield">Yield <span>From source</span></label>
+            <input id="yield" name="yield" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="prepTime">Prep time <span>As published</span></label>
+            <input id="prepTime" name="prepTime" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="cookTime">Cook time <span>As published</span></label>
+            <input id="cookTime" name="cookTime" autocomplete="off" />
+          </div>
+          <div class="field full">
+            <label for="totalTime">Total time <span>As published</span></label>
+            <input id="totalTime" name="totalTime" autocomplete="off" />
+          </div>
+          <div class="field full">
+            <label for="ingredients">Ingredients <span>One per line</span></label>
+            <textarea id="ingredients" name="ingredients" rows="7" spellcheck="true"></textarea>
+          </div>
+          <div class="field full">
+            <label for="instructions">Instructions <span>One step per line</span></label>
+            <textarea id="instructions" name="instructions" rows="8" spellcheck="true"></textarea>
+          </div>
+        </form>
+
+        <div class="actions" aria-label="Export recipe">
+          <button id="export-md" class="button primary" type="button">Export Markdown</button>
+          <button id="export-json" class="button secondary" type="button">Export JSON</button>
+          <button id="save-library" class="button quiet" type="button">Save to library · Plus</button>
+        </div>
+      </section>
+
+      <section class="plus" aria-labelledby="plus-heading">
+        <div>
+          <p class="eyebrow">Optional one-time unlock</p>
+          <h2 id="plus-heading">Source Card Plus</h2>
+          <p>Save an unlimited local library and reopen cards later. Capture, editing, and both exports stay free.</p>
+        </div>
+        <div id="license-state" class="license-state">$12 once · no account required</div>
+        <a id="buy-link" class="button secondary" target="_blank" rel="noreferrer">Buy Plus</a>
+        <details id="restore-panel">
+          <summary>Have a license? Restore it</summary>
+          <form id="license-form" class="license-form">
+            <label for="license">License token</label>
+            <div>
+              <input id="license" autocomplete="off" spellcheck="false" />
+              <button class="button quiet" type="submit">Verify license</button>
+            </div>
+          </form>
+        </details>
+      </section>
+
+      <section id="library" class="library" aria-labelledby="library-heading" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">On this device</p>
+            <h2 id="library-heading">Saved library</h2>
+          </div>
+          <span id="library-count"></span>
+        </div>
+        <p id="library-empty">No saved cards yet.</p>
+        <ul id="library-list"></ul>
+      </section>
+    </main>
+    <footer>
+      <span>Local-first. No recipe data leaves your browser.</span>
+      <a href="https://recipe-source-card.sociobot.in/privacy" target="_blank" rel="noreferrer">Privacy</a>
+      <a href="https://recipe-source-card.sociobot.in/terms" target="_blank" rel="noreferrer">Terms</a>
+    </footer>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

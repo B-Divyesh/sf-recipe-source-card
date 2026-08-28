@@ -1,0 +1,31 @@
+{
+  "name": "recipe-source-card",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "wxt prepare",
+    "dev": "wxt",
+    "dev:site": "vite --config vite.site.config.ts",
+    "build:extension": "wxt build",
+    "zip:extension": "wxt zip",
+    "build:site": "npm run build:extension && npm run zip:extension && node scripts/stage-extension.mjs && vite build --config vite.site.config.ts",
+    "build": "npm run build:site",
+    "test": "vitest run",
+    "test:e2e": "npm run build:extension && playwright test",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.58.2",
+    "@types/chrome": "0.0.287",
+    "@types/node": "22.10.7",
+    "@vitest/coverage-v8": "2.1.8",
+    "playwright": "1.58.2",
+    "sharp": "0.33.5",
+    "typescript": "5.7.3",
+    "vite": "6.0.7",
+    "vitest": "2.1.8",
+    "wxt": "0.19.24"
+  }
+}
