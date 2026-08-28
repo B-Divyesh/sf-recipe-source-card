@@ -1,0 +1,30 @@
+{
+  "slug": "recipe-source-card",
+  "title": "Recipe Source Card",
+  "territory": "utilities",
+  "user": "A home cook saving web recipes who needs a clean, editable, source-attributed card without retyping ingredients or trusting a black-box scrape.",
+  "evidence": [
+    {
+      "url": "https://hn.algolia.com/api/v1/items/43553031",
+      "date": "2025-04-02",
+      "quote_or_summary": "The recipe-app launch receives 74 comments, including reports that a common search such as 'Anti-inflammatory' crashes the app, showing how brittle broad recipe products can become."
+    },
+    {
+      "url": "https://github.com/gilfort/Weeklyplanner/issues/22",
+      "date": "2026-07-30",
+      "quote_or_summary": "The user story asks to paste a recipe URL, parse schema.org Recipe JSON-LD, map ingredients where possible, and open a pre-filled edit screen so recipes do not need retyping."
+    }
+  ],
+  "recurrence": "A large recipe-app discussion and a separate 2026 feature request both point to capture reliability and editability as the real repeated task.",
+  "current_workaround": "Browser bookmarks, screenshots, copy/paste into Notes, or importing into an opaque recipe app and correcting it by hand.",
+  "incumbents_and_gap": "Paprika, Mela, Tandoor, and Mealie import recipes, but import failures and hidden transforms make provenance and repair difficult. The gap is a small capture tool that keeps the source, parsed fields, and user edits visible together.",
+  "smallest_useful_product": "A local browser extension that extracts Recipe JSON-LD, preserves the canonical URL and attribution, shows a field-by-field editable preview, and exports JSON/Markdown. Non-goals: copying full sites without permission, a hosted recipe catalog, paywall bypassing, or AI rewriting.",
+  "success_measure": "At least 85% of pilot imports create a usable card after fewer than three field edits, and every exported card retains its source URL.",
+  "artifact_class": "browser-extension",
+  "monetization": "one-time — source-preserving personal capture is a durable local utility with no server operating cost.",
+  "constraints": "Respect site terms and robots boundaries; import only structured metadata exposed to the user; retain attribution and URL; do not redistribute copyrighted recipe text as a shared corpus.",
+  "est_build_effort": "M",
+  "why_distinct": "It is a transparent, repairable personal capture pipeline, not a recipe database or thin LLM summarizer.",
+  "confidence": 4,
+  "state": "BUILT"
+}
