@@ -8,11 +8,14 @@ export default defineConfig({
     outDir: resolve(import.meta.dirname, 'dist/site'),
     emptyOutDir: true,
     target: 'es2022',
+    modulePreload: { polyfill: false },
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'site/index.html'),
+        demo: resolve(import.meta.dirname, 'site/demo/index.html'),
         privacy: resolve(import.meta.dirname, 'site/privacy/index.html'),
         terms: resolve(import.meta.dirname, 'site/terms/index.html'),
+        notFound: resolve(import.meta.dirname, 'site/404/index.html'),
       },
     },
   },

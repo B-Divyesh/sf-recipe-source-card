@@ -6,9 +6,9 @@ export default defineConfig({
     name: 'Recipe Source Card',
     short_name: 'Source Card',
     description: 'Capture editable recipe cards from visible Recipe JSON-LD, with the source kept attached.',
-    version: '1.0.0',
+    version: '1.0.1',
     permissions: ['activeTab', 'scripting', 'storage'],
-    host_permissions: ['https://pilot-api.sociobot.in/*'],
+    host_permissions: ['https://api.sociobot.in/*'],
     action: {
       default_title: 'Capture recipe source card',
     },

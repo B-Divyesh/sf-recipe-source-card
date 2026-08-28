@@ -1,117 +1,94 @@
-# Recipe Source Card — verification handoff
+# Recipe Source Card — repair handoff
 
-## Independent verification decision: **FAIL — do not release**
+Work order: `recipe-source-card-repair-1`
 
-Verified candidate `373405a2a99b3a7de16e71faaf06926a2a4b870a` against
-https://recipe-source-card.sociobot.in/ on 2026-08-28 UTC. Full evidence is in
-[`verification-1.md`](verification-1.md).
+Base report: `8ae05891ede7c99698df3e0029005de19f0ece5d`
 
-Release blockers: `.factory/claims.json` is missing (therefore no mandated
-claim tests can run); no isolated one-click sample-data demo or `.factory/demo.md`
-exists; and the live first screen neither names home cooks nor provides the
-required **Try it with sample data** action. The deployed paid link still uses
-the pilot billing API. Live responses also omit a CSP and cache hashed static
-assets for only 30 seconds.
+Failed candidate: `373405a2a99b3a7de16e71faaf06926a2a4b870a`
 
-Local build, typecheck, unit tests, existing Playwright tests, functional
-export smoke tests, 390 px/accessibility checks, offline reload, and live
-license-endpoint rate limiting otherwise produced the evidence recorded in the
-verification report. Product source code was not changed by verification.
+Repair version: `1.0.1`
 
----
+Completed: 2026-08-28 UTC
 
-# Builder handoff retained below
+## Repair outcome
 
-Work order: `recipe-source-card-build-1`  
-Completed: 2026-08-28
+All seven findings in `.factory/verification-1.md` are repaired without
+changing the browser-extension or static-deployment artifact classes.
 
-## What shipped
+1. Added `.factory/claims.json` with ten unique reliance-bearing claims. Each
+   entry has exactly one matching `@claim:<id>` regression and an executable
+   command. A config test prevents a missing, duplicate, or untagged manifest.
+2. Added a real `/demo/` using the production recipe parser and exporters with
+   bundled lemon-and-sage sample data. The visible banner, reset, and exit
+   actions use only `demo:recipe-source-card:draft`; exit discards it.
+3. Replaced the metaphorical first read with “Capture web recipes with their
+   source,” names home cooks, makes the sample demo primary, explains the next
+   screen, and shows privacy/offline/price facts.
+4. Switched website checkout, extension verification, and MV3 host permission
+   from the pilot host to `https://api.sociobot.in/api/v1`.
+5. Added Azure Static Web Apps-native `staticwebapp.config.json` with a strict
+   CSP, Permissions-Policy, Referrer-Policy, nosniff, and a styled 404.
+6. Added the Azure route rule `Cache-Control: public, max-age=31536000,
+   immutable` for `/assets/*`; download ZIPs retain a one-hour policy.
+7. Removed unprovable “unlimited” wording, listed remaining product claims,
+   and tested observable results: downloaded contents, network requests,
+   storage keys, offline reload, license request shape/cache, and paid-library
+   save/reopen/remove behavior.
 
-- WXT + TypeScript Manifest V3 extension with `activeTab`, `scripting`, and
-  local `storage` only, plus the Sociobot pilot license host permission.
-- User-initiated extraction of visible `application/ld+json` blocks. The parser
-  handles root recipes, arrays, `@graph`, multiple recipes, nested instruction
-  sections, object/array authors, yields, images, and malformed JSON blocks.
-- Canonical URL and site attribution pinned to every draft. Capture does not
-  crawl prose, follow links, bypass access controls, or call an AI service.
-- Complete field-by-field editor for name, description, author, yield, times,
-  ingredients, and instructions; current draft restore; multiple-recipe picker;
-  source link; Markdown and JSON downloads. Both exports always retain the
-  source URL and capture timestamp.
-- First-class empty, capture-progress, missing/invalid schema, restricted-page,
-  offline, success, and license-service states. The popup is responsive down to
-  360 px and has a `Ctrl/Command+Shift+Y` keyboard command.
-- Free core includes capture, editing, and both export formats. $12 one-time
-  Source Card Plus unlocks an unlimited on-device saved library. Token restore,
-  daily verification cache, optimistic cached unlock, invalid-license locking,
-  offline fallback, and hosted Sociobot/Dodo checkout are implemented. No
-  provider is embedded and no product ID is hardcoded.
-- Cinematic, product-specific landing site with an original generated kitchen
-  hero, installation guidance, paid tier, license return handling, service
-  worker, responsive 390 px treatment, and `/privacy/` and `/terms/` pages.
-- Original icon system, web manifest assets, `robots.txt`, sitemap, immutable
-  asset cache headers, README, and MIT license.
+The existing Recipe JSON-LD parser, field editor, Markdown/JSON formats,
+restricted-page recovery, free core, and source retention remain intact.
 
-## Build and verification
+## Verification evidence
 
-From a clean checkout with Node 20+:
+Executed from a clean checkout/install:
+
+- `npm ci`: pass with the pinned Playwright 1.58.2 toolchain.
+- `npm audit --omit=dev`: **0 production vulnerabilities**. npm reports 21
+  development-only transitive advisories in WXT/test tooling.
+- `npm test`: **12/12 pass** across parser, license, claim-manifest, deployment
+  policy, demo, and production-host configuration.
+- `npm run check`: strict TypeScript pass.
+- Every command in `.factory/claims.json`: pass independently from a fresh
+  Playwright context or mocked unit sandbox.
+- `npm run test:e2e`: **35 pass, 3 intentional project skips**. Coverage
+  includes desktop, 390 px mobile, no overflow, keyboard/Enter, visible focus,
+  44 px controls, reduced motion, offline update path, extension popup, paid
+  local library, and all demo flows.
+- Axe through Playwright: zero serious/critical findings on `/`, `/demo/`,
+  `/privacy/`, `/terms/`, `/404/`, and the packaged extension popup.
+- `/opt/fleet/lib/verify-url.sh` on the production build: title, `lang=en`, one
+  `h1`, `main`, image alt text, and no console/page errors pass.
+- Lighthouse 12.4 mobile production build: **100 performance / 100
+  accessibility / 100 best practices / 100 SEO**; LCP 1.1 s, CLS 0, TBT 0 ms.
+- Build budgets: initial site JS 0.95 KB, demo JS 5.65 KB, CSS 13.50 KB;
+  mobile hero AVIF 11.3 KB; extension 50.39 KB; ZIP 20.80 KB.
+- `unzip -t .output/recipe-source-card-1.0.1-chrome.zip`: every entry passes.
+  Generated manifest permissions are `activeTab`, `scripting`, `storage`, and
+  only `https://api.sociobot.in/*` as a host permission.
+- Live billing identity before deploy: invalid production verification returns
+  `200 {"reason":"invalid","valid":false}`; production checkout returns 303
+  to the hosted Dodo checkout.
+
+## Run and verify
 
 ```sh
-npm install
+npm ci
+npm audit --omit=dev
 npm test
 npm run check
 npm run build
+npm run test:claims
 npm run test:e2e
 ```
 
-`npm run build` is the exact deploy build. It creates the extension, packages
-`.output/recipe-source-card-1.0.0-chrome.zip`, copies it into the site, and
-writes the deploy root to `dist/site/` with `dist/site/index.html`.
+The deploy root is `dist/site/`. The extension package is
+`dist/site/downloads/recipe-source-card-chrome.zip`. The catalog/verifier demo
+entry point is `https://recipe-source-card.sociobot.in/demo/`.
 
-Verification completed locally:
+## Known gaps and next steps
 
-- `npm test`: 7/7 Vitest tests passed (schema variants, malformed blocks,
-  no-guess behavior, source retention in both exports, license cache timing).
-- `npm run check`: strict TypeScript passed.
-- `npm run build`: passed; deploy output is 316 KB total.
-- `npm run test:e2e`: 11 Playwright tests passed, one intentionally skipped
-  duplicate mobile extension run. Desktop/mobile site, 390 px overflow,
-  license-return storage, legal routes, popup load/error state, and Axe checks
-  are covered.
-- Axe: zero serious or critical findings on the landing site and extension
-  popup.
-- `npm audit --omit=dev`: zero production vulnerabilities.
-- Local Lighthouse 12.4 mobile run: **97 performance, 100 accessibility,
-  100 best practices, 100 SEO**. LCP 2.2 s, CLS 0, total blocking time 0 ms.
-- Performance sizes: landing JS 1.60 KB, CSS 10.97 KB; mobile hero 11.3 KB
-  AVIF / 21.1 KB WebP; extension total 50.4 KB and package 20.8 KB. All are
-  comfortably below the 200 KB JS, 50 KB CSS, and 300 KB hero budgets.
-- Production extension manifest was inspected: no broad site host permission,
-  no analytics, and only the pilot billing endpoint can be contacted.
-
-## Art provenance
-
-`assets/src/kitchen-source-hero.png` was generated specifically for this
-product on 2026-08-28 with the factory Azure image deployment. The exact prompt,
-review notes, and license provenance are in
-`assets/src/kitchen-source-hero.prompt.json` and `.factory/design.md`. The
-candidate was inspected for brands, watermarks, malformed objects, unwanted
-text, and palette/composition fit. Responsive AVIF, WebP, and JPEG derivatives
-are shipped; the mobile versions are far below 300 KB. The footer discloses the
-AI-generated hero.
-
-## Known gaps and release steps
-
-- Billing intentionally targets `https://pilot-api.sociobot.in` for staging.
-  After the factory registers the product, switch both `lib/license.ts` and the
-  landing checkout link to `https://api.sociobot.in`; no other payment work is
-  required.
-- The website and extension storage are separate browser security origins, so
-  a token returned to the website is stored there and the receipt flow asks the
-  buyer to paste it once into the extension Restore panel. The extension also
-  accepts `?license=` when opened directly.
-- The 85% import-quality success measure needs a publisher-diverse pilot set;
-  automated coverage proves parser shapes and source retention but does not
-  claim a real-world pilot rate yet.
-- The package is ready for unpacked Chromium installation. Store signing and
-  publication are factory deployment responsibilities.
+- Chromium Web Store signing/publication remains a factory release operation;
+  the checked ZIP is the unpacked-install package.
+- npm's advisories are confined to development tooling; the production audit
+  is clean.
+- No release-blocking product or deployment gap is known.

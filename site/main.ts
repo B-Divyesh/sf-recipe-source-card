@@ -25,6 +25,6 @@ form?.addEventListener('submit', (event) => {
   message.textContent = 'Saved here. Open the extension and paste this token under “Have a license?” to verify Plus.';
 });
 
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(location.hostname))) {
   window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'));
 }

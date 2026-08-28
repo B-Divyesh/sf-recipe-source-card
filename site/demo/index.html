@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Try Recipe Source Card with a sample recipe in an isolated browser demo." />
+    <link rel="canonical" href="https://recipe-source-card.sociobot.in/demo/" /><meta name="theme-color" content="#111713" />
+    <title>Demo — Recipe Source Card</title><link rel="icon" href="/icon.svg" type="image/svg+xml" /><link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <aside class="demo-banner" aria-label="Demo mode"><strong>Demo — sample data, nothing is saved to your real data</strong><div><button id="reset-demo" type="button">Reset demo</button><a id="leave-demo" href="/">Start for real</a></div></aside>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Recipe Source Card home"><svg width="28" height="32" viewBox="0 0 28 32" aria-hidden="true"><path d="M3 1h15l7 7v23H3z"/><path d="M18 1v8h7M8 14h12M8 20h12M8 26h7"/></svg><span>Recipe Source Card</span></a>
+      <nav aria-label="Main navigation"><a href="/">Home</a><a href="/privacy/">Privacy</a><a class="header-download" href="/downloads/recipe-source-card-chrome.zip" download>Download</a></nav>
+    </header>
+    <main id="main" class="demo-main">
+      <section class="demo-intro" aria-labelledby="demo-title"><p class="kicker"><span></span> Sample publisher data</p><h1 id="demo-title">Edit a source-linked recipe card.</h1><p>This sample shows the extension’s editor and exports. Change any field, then download either format.</p></section>
+      <section class="demo-workbench" aria-labelledby="editor-title">
+        <div class="demo-source"><p class="sheet-label">Found in published Recipe JSON-LD</p><h2 id="editor-title">Sample capture</h2><p><strong>Source:</strong> <span id="demo-source-link">recipes.example</span></p><p>The sample is bundled with this site. The demo does not contact the sample address.</p></div>
+        <form id="demo-form" class="demo-form">
+          <label>Recipe name<input name="name" required /></label><label>Description<textarea name="description" rows="3"></textarea></label>
+          <div class="demo-grid"><label>Author<input name="author" /></label><label>Yield<input name="yield" /></label><label>Total time<input name="totalTime" /></label></div>
+          <label>Ingredients, one per line<textarea name="ingredients" rows="6"></textarea></label><label>Instructions, one per line<textarea name="instructions" rows="6"></textarea></label>
+          <div class="demo-actions"><button id="export-md" class="button primary" type="button">Export Markdown</button><button id="export-json" class="button secondary" type="button">Export JSON</button></div>
+          <p id="demo-status" role="status" aria-live="polite">Sample ready. Edit a field or export the card.</p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-footer"><p>Recipe Source Card · sample data uses isolated demo storage · Built by Param Factory · Build 1.0.1.</p><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></footer>
+    <script type="module" src="/demo.ts"></script>
+  </body>
+</html>

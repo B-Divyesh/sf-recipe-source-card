@@ -65,6 +65,9 @@ Status always includes words or an icon; color never carries state alone.
   secondary so payment never blocks the core capture job.
 - Focus is a 3 px ember outline with 2 px separation. Buttons compress by one
   pixel on press to give immediate, physical feedback.
+- **Demo bench:** the sample editor uses the same dark inspection surface and
+  parchment/ember cues as the extension. A solid ember banner marks the
+  isolated state without resembling a generic dashboard notification.
 
 ## Motion policy
 
@@ -121,6 +124,8 @@ Status always includes words or an icon; color never carries state alone.
 - Source PNG and prompt sidecar live in `assets/src/`; optimized WebP/AVIF
   derivatives live with the landing site assets. Candidates are visually
   inspected for malformed objects, accidental text/marks, and palette fit.
+- `site/public/assets/social-card.jpg` is a 1200×630 crop derived from this
+  same commissioned source. No new third-party material was introduced.
 
 ### Icons
 

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "demo-sandbox",
+    "claim": "The sample demo opens filled data in one click, uses demo-only storage, resets, and discards its data on exit.",
+    "where": "landing first screen, demo banner, README",
+    "test": "npm run test:claims -- --grep @claim:demo-sandbox",
+    "sandbox": "fresh browser context; enter from landing; edit, reload, inspect keys, reset, and exit"
+  },
+  {
+    "id": "source-linked-exports",
+    "claim": "Edited Markdown and JSON exports include the canonical publisher URL.",
+    "where": "landing, demo, README",
+    "test": "npm run test:claims -- --grep @claim:source-linked-exports",
+    "sandbox": "fresh demo; edit name; download both formats; inspect filenames and contents"
+  },
+  {
+    "id": "local-recipe-data",
+    "claim": "Recipe edits stay in browser storage and the demo sends no recipe data off origin.",
+    "where": "landing facts, privacy, README",
+    "test": "npm run test:claims -- --grep @claim:local-recipe-data",
+    "sandbox": "fresh demo; monitor requests; edit and export; inspect storage namespace"
+  },
+  {
+    "id": "site-network-privacy",
+    "claim": "The public site uses no analytics, third-party fonts, or third-party runtime scripts.",
+    "where": "privacy, README",
+    "test": "npm run test:claims -- --grep @claim:site-network-privacy",
+    "sandbox": "fresh browser context; monitor all landing, demo, privacy, and terms requests"
+  },
+  {
+    "id": "structured-data-only",
+    "claim": "Capture uses published Recipe JSON-LD rather than crawling page text or links.",
+    "where": "landing, privacy, README",
+    "test": "npm run test:claims -- --grep @claim:structured-data-only",
+    "sandbox": "fresh demo built through the production parser from bundled Recipe JSON-LD"
+  },
+  {
+    "id": "plus-terms",
+    "claim": "Plus costs $12 once and adds an on-device saved card library; capture and export remain free.",
+    "where": "landing paid section, terms, README",
+    "test": "npm run test:claims -- --grep @claim:plus-terms",
+    "sandbox": "fresh landing page; inspect price, purchase type, scope, free-core copy, and production checkout target"
+  },
+  {
+    "id": "plus-library",
+    "claim": "A cached valid Plus license enables saving, reopening, and removing a card from extension storage.",
+    "where": "landing paid section, terms, README",
+    "test": "npm run build:extension && npx playwright test tests/e2e/extension.spec.ts --project=desktop --grep @claim:plus-library",
+    "sandbox": "fresh unpacked production extension; seed a valid daily cache and sample draft; save, reopen, and remove"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "The sample demo reloads offline after the first visit.",
+    "where": "landing first-screen facts",
+    "test": "npm run test:claims -- --grep @claim:offline-reload",
+    "sandbox": "fresh browser context; visit demo once; wait for service worker; disable network; reload and inspect sample"
+  },
+  {
+    "id": "license-request-privacy",
+    "claim": "License verification sends only the license token to the production Sociobot verification endpoint.",
+    "where": "privacy, README",
+    "test": "npm test -- --testNamePattern=@claim:license-request-privacy",
+    "sandbox": "mocked fetch; call license verifier; assert exact encoded production URL and request options"
+  },
+  {
+    "id": "daily-license-cache",
+    "claim": "A valid cached license is not checked more than once per day.",
+    "where": "privacy, README",
+    "test": "npm test -- --testNamePattern=@claim:daily-license-cache",
+    "sandbox": "fixed timestamps immediately before and at the 24-hour cache boundary"
+  }
+]

@@ -1,7 +1,7 @@
 import type { StoredLicense } from './types';
 
 export const PRODUCT_SLUG = 'recipe-source-card';
-export const BILLING_BASE = 'https://pilot-api.sociobot.in/api/v1';
+export const BILLING_BASE = 'https://api.sociobot.in/api/v1';
 export const CHECKOUT_URL = `${BILLING_BASE}/products/${PRODUCT_SLUG}/checkout`;
 export const LICENSE_KEY = `sb_license:${PRODUCT_SLUG}`;
 export const LICENSE_CACHE_KEY = `${LICENSE_KEY}:verdict`;
