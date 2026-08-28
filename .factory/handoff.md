@@ -10,6 +10,8 @@ Repair version: `1.0.1`
 
 Completed: 2026-08-28 UTC
 
+Repair commit deployed: `1e194cf570e08d9cd43c9b19f43f8e2f5c734133`
+
 ## Repair outcome
 
 All seven findings in `.factory/verification-1.md` are repaired without
@@ -68,6 +70,26 @@ Executed from a clean checkout/install:
 - Live billing identity before deploy: invalid production verification returns
   `200 {"reason":"invalid","valid":false}`; production checkout returns 303
   to the hosted Dodo checkout.
+
+## Live deployment evidence
+
+- Deployed `dist/site/` through the work order's Azure Static Web Apps static
+  deployment to `https://recipe-source-card.sociobot.in/` (Azure deployment ID
+  `b1903292-8f3e-4efd-a6e9-f55306b2e420`).
+- `/opt/fleet/lib/verify-url.sh` against the custom domain: HTTP 200, correct
+  title and language, one `h1`, one `main`, complete alt text, zero unlabeled
+  buttons, and no console or page errors.
+- Root, `/demo/`, and assets return the checked CSP and Permissions-Policy.
+  The live hashed JS returns `Cache-Control: public, max-age=31536000,
+  immutable`. A missing route returns the styled page with HTTP 404.
+- Live desktop and 390 px browser pass: zero serious/critical Axe findings on
+  home, demo, privacy, and terms; no horizontal overflow; visible demo banner;
+  no third-party runtime requests; and first-visit offline demo reload restores
+  “Lemon and sage roast potatoes.”
+- Live Lighthouse 12.4: **100 performance / 100 accessibility / 100 best
+  practices / 100 SEO**; LCP 0.9 s, CLS 0, TBT 0 ms.
+- Live ZIP SHA-256 equals the local release ZIP:
+  `bda5c707cdc1796474e8187c6eeac0f4cda5ab6346be48c1271652c799d16c41`.
 
 ## Run and verify
 
