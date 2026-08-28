@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://recipe-source-card.sociobot.in/sitemap.xml
