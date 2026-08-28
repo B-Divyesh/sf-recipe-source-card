@@ -1,4 +1,26 @@
-# Recipe Source Card — build handoff
+# Recipe Source Card — verification handoff
+
+## Independent verification decision: **FAIL — do not release**
+
+Verified candidate `373405a2a99b3a7de16e71faaf06926a2a4b870a` against
+https://recipe-source-card.sociobot.in/ on 2026-08-28 UTC. Full evidence is in
+[`verification-1.md`](verification-1.md).
+
+Release blockers: `.factory/claims.json` is missing (therefore no mandated
+claim tests can run); no isolated one-click sample-data demo or `.factory/demo.md`
+exists; and the live first screen neither names home cooks nor provides the
+required **Try it with sample data** action. The deployed paid link still uses
+the pilot billing API. Live responses also omit a CSP and cache hashed static
+assets for only 30 seconds.
+
+Local build, typecheck, unit tests, existing Playwright tests, functional
+export smoke tests, 390 px/accessibility checks, offline reload, and live
+license-endpoint rate limiting otherwise produced the evidence recorded in the
+verification report. Product source code was not changed by verification.
+
+---
+
+# Builder handoff retained below
 
 Work order: `recipe-source-card-build-1`  
 Completed: 2026-08-28
