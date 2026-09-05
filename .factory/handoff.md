@@ -1,95 +1,130 @@
-# Recipe Source Card — repair handoff
+# Recipe Source Card — repair 2 handoff
 
-Work order: `recipe-source-card-repair-1`
+Work order: `recipe-source-card-repair-2`
 
-Base report: `8ae05891ede7c99698df3e0029005de19f0ece5d`
+Base review commit: `5262e02d7e06494154f9428d00214009db0c6ec7`
 
-Failed candidate: `373405a2a99b3a7de16e71faaf06926a2a4b870a`
+Implementation commit: `1594f255547a9fed8e4b08dedee2c86267c9cb24`
 
-Repair version: `1.0.1`
+Release version: `1.0.2`
 
-Completed: 2026-08-28 UTC
+Live URL: `https://recipe-source-card.sociobot.in/`
 
-Repair commit deployed: `1e194cf570e08d9cd43c9b19f43f8e2f5c734133`
+Completed: 2026-09-05 UTC
 
-## Repair outcome
+## Outcome
 
-All seven findings in `.factory/verification-1.md` are repaired without
-changing the browser-extension or static-deployment artifact classes.
+Both strict-review findings are repaired at their causes.
 
-1. Added `.factory/claims.json` with ten unique reliance-bearing claims. Each
-   entry has exactly one matching `@claim:<id>` regression and an executable
-   command. A config test prevents a missing, duplicate, or untagged manifest.
-2. Added a real `/demo/` using the production recipe parser and exporters with
-   bundled lemon-and-sage sample data. The visible banner, reset, and exit
-   actions use only `demo:recipe-source-card:draft`; exit discards it.
-3. Replaced the metaphorical first read with “Capture web recipes with their
-   source,” names home cooks, makes the sample demo primary, explains the next
-   screen, and shows privacy/offline/price facts.
-4. Switched website checkout, extension verification, and MV3 host permission
-   from the pilot host to `https://api.sociobot.in/api/v1`.
-5. Added Azure Static Web Apps-native `staticwebapp.config.json` with a strict
-   CSP, Permissions-Policy, Referrer-Policy, nosniff, and a styled 404.
-6. Added the Azure route rule `Cache-Control: public, max-age=31536000,
-   immutable` for `/assets/*`; download ZIPs retain a one-hour policy.
-7. Removed unprovable “unlimited” wording, listed remaining product claims,
-   and tested observable results: downloaded contents, network requests,
-   storage keys, offline reload, license request shape/cache, and paid-library
-   save/reopen/remove behavior.
+1. The `site-network-privacy` claim now includes the public no-cookies promise.
+   Its tagged Playwright regression visits the landing, demo, privacy, and
+   terms routes in a fresh context. It observes off-origin requests and
+   `Set-Cookie` response headers, checks `document.cookie` on each route, and
+   checks the browser context's cookie store. The test does not infer behavior
+   from source text.
+2. The designed 404 now uses the direct h1 **“Page not found.”** A browser
+   regression checks the heading and its working Home and Demo recovery links.
+3. The site, extension manifest, footers, and service-worker cache are versioned
+   as 1.0.2 so existing visitors receive the corrected offline shell.
 
-The existing Recipe JSON-LD parser, field editor, Markdown/JSON formats,
-restricted-page recovery, free core, and source retention remain intact.
+The parser, editable fields, source-preserving Markdown/JSON exports, isolated
+sample, local Plus library, production license flow, and visual system remain
+unchanged. Runtime AI remains out of scope because the researched brief calls
+for transparent Recipe JSON-LD capture and names AI rewriting as a non-goal.
+The existing original generated hero passed visual review and retains its
+provenance in `.factory/design.md`; no new image was needed.
 
-## Verification evidence
+## Earlier finding disposition
 
-Executed from a clean checkout/install:
+| Finding | Current proof |
+| --- | --- |
+| Claim manifest was missing | `.factory/claims.json` lists ten unique claims; every command passed independently. |
+| One-click isolated demo was missing | Fresh live flow opened realistic data in one click, kept the demo banner, used only the demo key for the draft, reset, discarded the demo key, and preserved a real-data sentinel. |
+| First screen did not name job, audience, or action | Fresh 1366×900 and 390×844 views show “Capture web recipes with their source,” “For home cooks,” and “Try it with sample data” before scrolling. |
+| Checkout used the pilot host | Built manifest and page use only `https://api.sociobot.in`; production checkout currently returns the expected 303 and an invalid verification returns a safe invalid result. |
+| CSP and Permissions-Policy were missing | Live root and hashed assets send the checked CSP, restrictive Permissions-Policy, referrer policy, and `nosniff`. |
+| Hashed assets were not immutable | Live hashed JavaScript returns `public, max-age=31536000, immutable`. |
+| Public claims were unlisted | Capture, source retention, local data, structured input, offline demo, Plus terms/library, license request, daily cache, network privacy, and cookies have tagged outcome tests. |
+| No-cookies promise was untested | Repaired by the expanded live-browser claim described above. |
+| 404 h1 was metaphorical | Repaired with “Page not found.” and a route-level browser regression. |
 
-- `npm ci`: pass with the pinned Playwright 1.58.2 toolchain.
-- `npm audit --omit=dev`: **0 production vulnerabilities**. npm reports 21
-  development-only transitive advisories in WXT/test tooling.
-- `npm test`: **12/12 pass** across parser, license, claim-manifest, deployment
-  policy, demo, and production-host configuration.
+## Clean local verification
+
+The worktree started from a clean checkout. The documented setup and all gates
+were run after the repair:
+
+- `npm ci`: pass with Playwright 1.58.2 and WXT preparation.
+- `npm audit --omit=dev --json`: zero production vulnerabilities. npm still
+  reports 21 development-tool advisories in WXT/test transitive packages.
+- `npm test`: 12/12 pass across parser shapes, license behavior, manifest
+  completeness, demo configuration, production host, and response policy.
 - `npm run check`: strict TypeScript pass.
-- Every command in `.factory/claims.json`: pass independently from a fresh
-  Playwright context or mocked unit sandbox.
-- `npm run test:e2e`: **35 pass, 3 intentional project skips**. Coverage
-  includes desktop, 390 px mobile, no overflow, keyboard/Enter, visible focus,
-  44 px controls, reduced motion, offline update path, extension popup, paid
-  local library, and all demo flows.
-- Axe through Playwright: zero serious/critical findings on `/`, `/demo/`,
+- `npm run build`: pass; produced `dist/site/`, the MV3 extension, and
+  `.output/recipe-source-card-1.0.2-chrome.zip`.
+- Every exact command in `.factory/claims.json`: 10/10 pass independently.
+- `npm run test:e2e`: 37 pass, 3 intentional project skips. This covers the
+  desktop and phone site, extension popup, accessible routes, keyboard and
+  focus, reduced motion, sample isolation, exports, offline reload, restricted
+  page recovery, returned-license storage, and the Plus library lifecycle.
+- Playwright Axe: zero serious or critical findings on `/`, `/demo/`,
   `/privacy/`, `/terms/`, `/404/`, and the packaged extension popup.
-- `/opt/fleet/lib/verify-url.sh` on the production build: title, `lang=en`, one
-  `h1`, `main`, image alt text, and no console/page errors pass.
-- Lighthouse 12.4 mobile production build: **100 performance / 100
-  accessibility / 100 best practices / 100 SEO**; LCP 1.1 s, CLS 0, TBT 0 ms.
-- Build budgets: initial site JS 0.95 KB, demo JS 5.65 KB, CSS 13.50 KB;
-  mobile hero AVIF 11.3 KB; extension 50.39 KB; ZIP 20.80 KB.
-- `unzip -t .output/recipe-source-card-1.0.1-chrome.zip`: every entry passes.
-  Generated manifest permissions are `activeTab`, `scripting`, `storage`, and
-  only `https://api.sociobot.in/*` as a host permission.
-- Live billing identity before deploy: invalid production verification returns
-  `200 {"reason":"invalid","valid":false}`; production checkout returns 303
-  to the hosted Dodo checkout.
+- `/opt/fleet/lib/verify-url.sh` against the production build: pass with title,
+  `lang=en`, one h1, one main, complete image alt text, labelled buttons, and
+  no console or page errors.
+- ZIP integrity: every extension archive entry passed `unzip -t`. The generated
+  manifest is MV3 version 1.0.2 with only `activeTab`, `scripting`, `storage`,
+  and `https://api.sociobot.in/*` permission.
 
-## Live deployment evidence
+Build budgets remain well below the contract: initial site JavaScript is
+0.95 KB (0.57 KB gzip), demo JavaScript is 5.65 KB (2.38 KB gzip), CSS is
+13.50 KB (3.77 KB gzip), the mobile hero AVIF is 11.33 KB, the unpacked
+extension is 50.39 KB, and the release ZIP is 20.80 KB.
 
-- Deployed `dist/site/` through the work order's Azure Static Web Apps static
-  deployment to `https://recipe-source-card.sociobot.in/` (Azure deployment ID
-  `b1903292-8f3e-4efd-a6e9-f55306b2e420`).
-- `/opt/fleet/lib/verify-url.sh` against the custom domain: HTTP 200, correct
-  title and language, one `h1`, one `main`, complete alt text, zero unlabeled
-  buttons, and no console or page errors.
-- Root, `/demo/`, and assets return the checked CSP and Permissions-Policy.
-  The live hashed JS returns `Cache-Control: public, max-age=31536000,
-  immutable`. A missing route returns the styled page with HTTP 404.
-- Live desktop and 390 px browser pass: zero serious/critical Axe findings on
-  home, demo, privacy, and terms; no horizontal overflow; visible demo banner;
-  no third-party runtime requests; and first-visit offline demo reload restores
-  “Lemon and sage roast potatoes.”
-- Live Lighthouse 12.4: **100 performance / 100 accessibility / 100 best
-  practices / 100 SEO**; LCP 0.9 s, CLS 0, TBT 0 ms.
-- Live ZIP SHA-256 equals the local release ZIP:
-  `bda5c707cdc1796474e8187c6eeac0f4cda5ab6346be48c1271652c799d16c41`.
+## Deployment and live verification
+
+Deployed `dist/site/` to the existing `sf-recipe-source-card` Azure Static Web
+App with deployment ID `80d11fea-fef8-48a2-b9c7-a388fc922e70`. The deployment
+reused its durable production resource, disabled staging policy, existing
+custom domain, and checked response configuration. This is a static product;
+there is no SQLite/process state, volume, health endpoint, or tenant backend.
+
+- `/opt/fleet/lib/verify-url.sh` on the custom HTTPS domain: pass; load 547 ms,
+  one h1/main, full alt and button labels, and no console/page errors.
+- A separate live script passed 63 assertions in fresh browser contexts. It
+  covered the cold desktop and phone first read, keyboard focus, reduced
+  motion, cookie/network privacy, legal pages, route titles, accessibility,
+  security/cache headers, internal links, deliberate HTTP 404 behavior, and
+  offline demo reload.
+- The sample opened with “Lemon and sage roast potatoes,” Mara Bell, realistic
+  ingredients, instructions, and its source. An edited Markdown download kept
+  both the edit and `https://recipes.example/lemon-sage-potatoes`. The banner
+  persisted after reload, Reset restored the sample, Start for real discarded
+  the demo key, and a real-data sentinel stayed unchanged throughout.
+- Live `/`, demo, privacy, terms, designed 404, service worker, hashed scripts,
+  CSS, and extension ZIP are byte-identical to the implementation build. ZIP
+  SHA-256 is
+  `738f09d3105e9f868519687946b8088a3acdb94f21d91af6cd8413991f2b8576`.
+- An unknown route returns the expected HTTP 404 and renders “Page not found.”;
+  `/404/` itself is the designed route and intentionally returns 200.
+- Robots, sitemap, icon, touch icon, social card, ZIP, public repository, and
+  production checkout links resolved with their expected statuses.
+- Lighthouse 12.4 mobile on the live site: **100 performance / 100
+  accessibility / 100 best practices / 100 SEO**; LCP 0.91 s, CLS 0, and
+  TBT 14.5 ms.
+
+## Catalog and billing
+
+`.factory/catalog-description.txt` and
+`/work/.evidence/catalog-description.txt` both contain the 68-character,
+verb-first description:
+
+> Capture editable web recipes and keep the publisher source attached.
+
+The existing advertised offer remains **Source Card Plus, $12 one time** for
+the on-device saved-card library. Capture, editing, and both exports remain
+free. The production product is registered: checkout returns 303 to the hosted
+merchant flow and verification accepts the product route. No
+`billing-offer.json` is needed because there is no registration gap.
 
 ## Run and verify
 
@@ -104,42 +139,14 @@ npm run test:e2e
 ```
 
 The deploy root is `dist/site/`. The extension package is
-`dist/site/downloads/recipe-source-card-chrome.zip`. The catalog/verifier demo
-entry point is `https://recipe-source-card.sociobot.in/demo/`.
+`dist/site/downloads/recipe-source-card-chrome.zip`. The verifier demo URL is
+`https://recipe-source-card.sociobot.in/demo/`.
 
-## Known gaps and next steps
+## Known gaps
 
-- Chromium Web Store signing/publication remains a factory release operation;
-  the checked ZIP is the unpacked-install package.
-- npm's advisories are confined to development tooling; the production audit
-  is clean.
-- No release-blocking product or deployment gap is known.
-
-## Independent verification 2 — PASS
-
-Verified candidate `388363ad138ad9f0eb38d0d933f16d0343c78a43` against
-https://recipe-source-card.sociobot.in/ on 2026-08-28 UTC. Result: **PASS**.
-
-The verifier performed the required cold first-read, ran all ten commands in
-`.factory/claims.json` from a clean `npm ci` install (all passed), ran
-`npm test` (12/12), TypeScript checking, the production build, packaged
-extension tests, desktop/390 px/end-to-end browser coverage, fresh live Axe
-scans, response-header/cache checks, deployment-content comparisons, privacy
-and outbound-request review, offline/service-worker coverage, and a production
-license-verification rate-limit burst.
-
-The live HTML, demo, hashed JS/CSS, and service worker are byte-identical to
-the candidate build. The live extension ZIP's timestamps differ but its entry
-names/lengths and sampled core-file hashes match. The 80-request invalid-token burst received 50
-`429` responses with `Retry-After: 4` (about 30 requests accepted in the
-burst). No blocker, critical, high, or medium product defect was found.
-
-Full evidence, including the cold-read result, each claim, exact commands,
-live header/accessibility results, and two non-product browser/tooling caveats,
-is in `.factory/verification-2.md`.
-
-## Review 1 — FAIL
-
-Reviewed 2026-09-05 UTC against implementation `388363ad138ad9f0eb38d0d933f16d0343c78a43`; documentation was at `107b7da45ba5fc28292cbf403a980172d188e3dc` and differs only in reports. The live assets and unpacked extension contents matched the implementation candidate. All ten declared claim commands passed from a clean install; the live desktop/phone demo, exports, reset/exit isolation, accessibility, offline, headers, cache policy, legal routes, 404 response, links, and license-rate-limit behavior were checked.
-
-The review verdict is **FAIL** with two findings: the privacy page promises no cookies but that promise is absent from the claim manifest/test, and the designed 404 h1 says “This page is not on the card,” which is not plain language. The required repair is to test or remove the no-cookies promise and replace the 404 h1 with plain wording. Details are in `.factory/review-1.md`.
+- Chromium Web Store signing and publication remain a factory release step;
+  the checked ZIP is ready for unpacked installation.
+- The 21 npm advisories are confined to development tooling; the production
+  audit is clean.
+- No release-blocking product, claim, accessibility, privacy, deployment, or
+  billing-registration gap is known.
