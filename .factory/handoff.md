@@ -137,3 +137,9 @@ burst). No blocker, critical, high, or medium product defect was found.
 Full evidence, including the cold-read result, each claim, exact commands,
 live header/accessibility results, and two non-product browser/tooling caveats,
 is in `.factory/verification-2.md`.
+
+## Review 1 — FAIL
+
+Reviewed 2026-09-05 UTC against implementation `388363ad138ad9f0eb38d0d933f16d0343c78a43`; documentation was at `107b7da45ba5fc28292cbf403a980172d188e3dc` and differs only in reports. The live assets and unpacked extension contents matched the implementation candidate. All ten declared claim commands passed from a clean install; the live desktop/phone demo, exports, reset/exit isolation, accessibility, offline, headers, cache policy, legal routes, 404 response, links, and license-rate-limit behavior were checked.
+
+The review verdict is **FAIL** with two findings: the privacy page promises no cookies but that promise is absent from the claim manifest/test, and the designed 404 h1 says “This page is not on the card,” which is not plain language. The required repair is to test or remove the no-cookies promise and replace the 404 h1 with plain wording. Details are in `.factory/review-1.md`.
