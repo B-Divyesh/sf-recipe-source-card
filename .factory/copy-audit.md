@@ -1,6 +1,6 @@
 # Landing page copy audit
 
-Audited 2026-08-28. Counts treat hyphenated terms and URLs as one word. No
+Audited 2026-09-05. Counts treat hyphenated terms and URLs as one word. No
 sentence exceeds 22 words. No banned marketing word appears.
 
 | Sentence | Words |

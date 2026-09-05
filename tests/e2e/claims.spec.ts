@@ -44,11 +44,20 @@ test('@claim:local-recipe-data keeps the whole demo flow same-origin and uses on
   expect(await page.evaluate(() => Object.keys(localStorage).every((key) => key.startsWith('demo:')))).toBe(true);
 });
 
-test('@claim:site-network-privacy loads public pages without third-party runtime requests', async ({ page }) => {
+test('@claim:site-network-privacy loads public pages without third-party requests or cookies', async ({ page, context }) => {
   const offOrigin: string[] = [];
+  const cookieResponses: string[] = [];
   page.on('request', (request) => { if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') offOrigin.push(request.url()); });
-  for (const path of ['/', '/demo/', '/privacy/', '/terms/']) await page.goto(path);
+  page.on('response', (response) => {
+    if (response.headers()['set-cookie']) cookieResponses.push(response.url());
+  });
+  for (const path of ['/', '/demo/', '/privacy/', '/terms/']) {
+    await page.goto(path);
+    await expect.poll(() => page.evaluate(() => document.cookie)).toBe('');
+  }
   expect(offOrigin).toEqual([]);
+  expect(cookieResponses).toEqual([]);
+  expect(await context.cookies()).toEqual([]);
 });
 
 test('@claim:structured-data-only builds the sample from Recipe JSON-LD and exposes its source', async ({ page }) => {

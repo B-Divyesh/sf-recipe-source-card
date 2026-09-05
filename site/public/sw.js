@@ -1,4 +1,4 @@
-const CACHE = 'recipe-source-card-site-v2';
+const CACHE = 'recipe-source-card-site-v3';
 const SHELL = ['/', '/demo/', '/privacy/', '/terms/', '/404/'];
 
 async function cacheShell() {

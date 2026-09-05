@@ -22,10 +22,10 @@
   },
   {
     "id": "site-network-privacy",
-    "claim": "The public site uses no analytics, third-party fonts, or third-party runtime scripts.",
+    "claim": "The public site uses no analytics, cookies, third-party fonts, or third-party runtime scripts.",
     "where": "privacy, README",
     "test": "npm run test:claims -- --grep @claim:site-network-privacy",
-    "sandbox": "fresh browser context; monitor all landing, demo, privacy, and terms requests"
+    "sandbox": "fresh browser context; monitor all landing, demo, privacy, and terms requests, response headers, document cookies, and browser cookies"
   },
   {
     "id": "structured-data-only",

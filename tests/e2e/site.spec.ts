@@ -20,6 +20,13 @@ test('landing first screen names the job, home cooks, and sample action', async 
   await expect(page.getByRole('link', { name: 'Try it with sample data' })).toHaveAttribute('href', '/demo/');
 });
 
+test('404 page states the error plainly and offers working recovery links', async ({ page }) => {
+  await page.goto('/404/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found.');
+  await expect(page.getByRole('link', { name: 'Return home' })).toHaveAttribute('href', '/');
+  await expect(page.getByRole('link', { name: 'Open sample demo' })).toHaveAttribute('href', '/demo/');
+});
+
 test('desktop keyboard navigation reaches the demo action with visible focus', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Keyboard order is checked once.');
   await page.goto('/');
